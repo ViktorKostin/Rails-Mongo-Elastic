@@ -1,6 +1,5 @@
-class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:edit, :create, :update, :destroy, :new]
+class AdminController < ApplicationController
+  before_action :authenticate_user!
 
   # GET /articles
   # GET /articles.json
@@ -33,7 +32,6 @@ class ArticlesController < ApplicationController
   # POST /articles.json
   def create
     @article = Article.new(article_params)
-
     respond_to do |format|
       if @article.save
         format.html { redirect_to @article, notice: 'Статья успешно добавлена.' }
@@ -45,15 +43,6 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def admin
-    if params[:search] == ''
-      @articles = Article.all
-    elsif params[:search]
-      @articles = Article.search(params[:search])
-    else
-      @articles = Article.all
-    end
-  end
 
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
