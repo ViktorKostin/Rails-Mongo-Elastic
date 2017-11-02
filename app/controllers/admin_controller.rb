@@ -32,6 +32,7 @@ class AdminController < ApplicationController
   # POST /articles.json
   def create
     @article = Article.new(article_params)
+
     respond_to do |format|
       if @article.save
         format.html { redirect_to @article, notice: 'Статья успешно добавлена.' }
