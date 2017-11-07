@@ -20,7 +20,11 @@
         <td><%= article.title %></td>
         <td><%= article.content %></td>
         <td><%= article.img %></td>
-        <td><%= link_to 'Подробнее', article %></td>
+        <td><%= link_to 'Читать', article %></td>
+        <% if user_signed_in? and current_user.rights == 'admin' %>
+          <td><%= link_to 'Редактировать', edit_article_path(article) %></td>
+          <td><%= link_to 'Удалить', article, method: :delete, :remote => true, :class => 'delete_entry' %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>

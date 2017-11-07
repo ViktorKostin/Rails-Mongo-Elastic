@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-<%= form_tag(articles_path, :method => "get", id: "search-form") do %>
+<%= form_tag(articles_path, :method => "get") do %>
   <%= text_field_tag :search, params[:search], placeholder: "Search Posts" %>
   <%= submit_tag "Search" %>
 <% end %>
@@ -20,7 +20,7 @@
         <td><%= article.title %></td>
         <td><%= article.content %></td>
         <td><%= article.img %></td>
-        <td><%= link_to 'Подробнее', article %></td>
+        <td><%= link_to 'Читать', article %></td>
         <td><%= link_to 'Редактировать', edit_article_path(article) %></td>
         <td><%= link_to 'Удалить', article, method: :delete, :remote => true, :class => 'delete_entry' %></td>
       </tr>
