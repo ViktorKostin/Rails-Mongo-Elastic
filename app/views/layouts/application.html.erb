@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>News</title>
-    <%= csrf_meta_tags %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-	<p class="notice"><%= notice %></p>
-	<p class="alert"><%= alert %></p>
-  <body>
-  	<% if user_signed_in? %>
-	  	<% if current_user.rights == 'admin' %>
-	  		<%= link_to 'Главная', :home %>
-	  		<%= link_to 'Панель администрирования', admin_path %>
-	  	<% end %>
-	  	<%= link_to "Выйти", destroy_user_session_path, :method => :delete %>
-	  <% else %>
-	  	<% unless request.url.match('sign_in') or request.url.match('sign_up') %>
-		  	<%= link_to "Регистрация", new_user_registration_path %>
-		  	<%= link_to "Вход", new_user_session_path %>
-	  	<% else %>
-	  		<%= link_to "Главная", :home %>
-		  <% end %>
-	  <% end %>
-    <%= yield %>
-  </body>
-</html>
+<%= render 'layouts/header' %>
+<%= yield %>
+<%= render 'layouts/footer' %>
