@@ -10,9 +10,7 @@ class Image
       :url => "/:attachment/:id/:style/:filename",
 	    :styles => {
 	      :original => ['1920x1680>', :jpg],
-	      :large    => ['500x500>',   :jpg],
-	      :medium   => ['250x250',    :jpg],
-	      :small    => ['100x100#',   :jpg]
+	      :medium   => ['250x250',    :jpg]
 	    }
 
   #set image validation
