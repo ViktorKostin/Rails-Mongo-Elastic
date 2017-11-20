@@ -45,7 +45,7 @@ class ArticlesController < ApplicationController
         Article.create_indexes
         format.html { redirect_to home_path, notice: 'Статья успешно создана.' }
       else
-        format.html { render :new }
+        format.json { render json: @article.errors }
       end
     end
   end
@@ -62,7 +62,7 @@ class ArticlesController < ApplicationController
       if @article.update(article_params)
         format.html { redirect_to @article, notice: 'Статья успешно обновлена.' }
       else
-        format.html { render :edit }
+        format.json { render json: @article.errors }
       end
     end
   end

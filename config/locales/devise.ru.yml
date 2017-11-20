@@ -42,6 +42,11 @@ ru:
               too_short: " короткий пароль"
             password_confirmation:
               confirmation: " требуется пароль подтверждения"
+        article:
+          attributes:
+            images:
+              invalid: "Неправильный формат изображения. Выберите другое."
+              
   views:
     pagination:
       first: "&laquo; Первая"

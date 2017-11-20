@@ -1532,3 +1532,6 @@
 #main-wrapper > div > div:nth-child(1) > div > section > header > div > div > ul > li > a { color: #151112; }
 #main-wrapper > div > div:nth-child(2) > div > ul > li.active > a,
 #main-wrapper > div > div:nth-child(1) > div > section > header > div > div > ul > li.active > a { background-color: #151112; color: white; border-color: #151112; font-weight: 500 }
+
+// logo
+#header > h1 > a:hover { color: inherit; }

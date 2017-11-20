@@ -1,4 +1,5 @@
 $(window).ready(function(){
+
     //get form in ajax
     $('.get_form').bind('ajax:success', function(event) {
       //get data from ajax
@@ -11,6 +12,12 @@ $(window).ready(function(){
       $('.delete_image').click(function(){
         $(this).closest('div').remove();
       });
+    //show error if the image is not validate
+    $('#form').bind('ajax:success', function(event) {
+      if(event.detail[0].images != undefined) {
+        alert(event.detail[0].images)
+      }
+    })
   });
 
   //delete specific article from front
@@ -25,4 +32,5 @@ $(window).ready(function(){
       $('.notice').slideToggle('slow')
     }, 3000)
   }
+
 });

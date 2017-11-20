@@ -22,12 +22,12 @@
           </div>
         </div>
       </header>
-      <% count = 0 %>
       <% @articles.each do |article| %>
-        <% count += 1 %>
+
+        <% count = cycle('odd', 'even') %>
 
         <!-- checking even or odd article in the sequence, for creating new "two-article" row -->
-        <% if count % 2 != 0 %>
+        <% if count == 'odd' %>
           <div class="row">
         <% end %>
 
@@ -68,7 +68,7 @@
         </div>
 
         <!-- checking even or odd article in the sequence, for creating new "two-article" row -->
-        <% if count % 2 == 0 %>
+        <% if count == 'even' %>
           </div>
         <% end %>
 
