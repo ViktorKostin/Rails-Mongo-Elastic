@@ -51,3 +51,15 @@
     background-size: contain;
     -ms-behavior: url('assets/js/ie/backgroundsize.min.htc');
   }
+
+// pagination style
+div.text-center ul.pagination li a { color: #151112; }
+div.text-center ul.pagination li.active a {
+  background-color: #151112;
+  color: white;
+  border-color: #151112;
+  font-weight: 500
+}
+
+// logo
+#header > h1 > a:hover { color: inherit; }

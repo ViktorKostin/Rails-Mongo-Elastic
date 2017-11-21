@@ -14,9 +14,8 @@ $(document).on('turbolinks:load', function(){
       });
     //after saving article
     $('#form').on('ajax:success', function(event) {
-      //remove form
-      $('.modal-backdrop.fade.in').remove()
-      $('#results').empty()
+      //hide form
+      $('#form').modal('hide');
       //show error if the image is not validate
       if(event.detail[0].images != undefined) {
         alert(event.detail[0].images)
