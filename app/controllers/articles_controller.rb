@@ -8,25 +8,22 @@ class ArticlesController < ApplicationController
   def index
     #search parameters
     if params[:search] == ''
-      @articles = Article.all.order_by(created_at: :desc).page params[:page]
+      @articles = Article.order_by(created_at: :desc).page params[:page]
     elsif params[:search]
-      @articles = Article.all.order_by(created_at: :desc).search(params[:search]).records.page params[:page]
+      @articles = Article.search(params[:search]).records.order_by(created_at: :desc).page params[:page]
     else
-      @articles = Article.all.order_by(created_at: :desc).page params[:page]
+      @articles = Article.order_by(created_at: :desc).page params[:page]
     end
-
-    #for creating article from main page
-    @article = Article.new
   end
 
   def new
     @article = Article.new
-    respond_to :js
+    respond_to :html
   end
 
   def edit
     @article = Article.find(params[:id])
-    respond_to :js
+    respond_to :html
   end
 
   def create
@@ -42,7 +39,6 @@ class ArticlesController < ApplicationController
 
     respond_to do |format|
       if @article.save
-        Article.create_indexes
         format.html { redirect_to home_path, notice: 'Статья успешно создана.' }
       else
         format.json { render json: @article.errors }
@@ -68,10 +64,8 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    #delete images from specific article and folder
-    ImagesController.new.destroy(article_id: @article.id)
-
-    #delete specific article
+    #delete specific article and images
+    @article.images.destroy_all
     @article.destroy
     respond_to :js
   end
@@ -83,12 +77,5 @@ class ArticlesController < ApplicationController
 
     def article_params
       params.require(:article).permit(:title, :content)
-    end
-
-    #check admin or ordinary user
-    def checkingRights
-      if user_signed_in? and current_user.rights != 'admin'
-        redirect_to :home
-      end
     end
 end

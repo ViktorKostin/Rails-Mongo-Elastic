@@ -1,9 +1,9 @@
-$(window).ready(function(){
+$(document).on('turbolinks:load', function(){
 
     //get form in ajax
-    $('.get_form').bind('ajax:success', function(event) {
+    $('.get_form').on('ajax:success', function(event) {
       //get data from ajax
-      let data = event.detail[0];
+      let data = event.detail[0].body;
       //set data in page
       $('#results').html(data);
       //show modal form with getted data
@@ -12,8 +12,12 @@ $(window).ready(function(){
       $('.delete_image').click(function(){
         $(this).closest('div').remove();
       });
-    //show error if the image is not validate
-    $('#form').bind('ajax:success', function(event) {
+    //after saving article
+    $('#form').on('ajax:success', function(event) {
+      //remove form
+      $('.modal-backdrop.fade.in').remove()
+      $('#results').empty()
+      //show error if the image is not validate
       if(event.detail[0].images != undefined) {
         alert(event.detail[0].images)
       }
@@ -21,7 +25,7 @@ $(window).ready(function(){
   });
 
   //delete specific article from front
-  $('.delete_entry').bind('ajax:success', function() {
+  $('.delete_entry').on('ajax:success', function() {
     $(this).closest('.6u').fadeOut(3000);
     $(this).closest('ul').remove();
   });
@@ -30,7 +34,7 @@ $(window).ready(function(){
   if($('.notice').text() != '') {
     setTimeout(function(){
       $('.notice').slideToggle('slow')
-    }, 3000)
+    }, 1000)
   }
 
 });

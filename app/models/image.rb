@@ -8,10 +8,10 @@ class Image
   #set images attributes
   has_mongoid_attached_file :image,
       :url => "/:attachment/:id/:style/:filename",
-	    :styles => {
-	      :original => ['1920x1680>', :jpg],
-	      :medium   => ['250x250',    :jpg]
-	    }
+      :styles => {
+        :original => ['1920x1680>', :jpg],
+        :medium   => ['250x250',    :jpg]
+      }
 
   #set image validation
   validates_attachment_content_type :image, :content_type => %w(image/jpeg image/jpg image/png image/gif)

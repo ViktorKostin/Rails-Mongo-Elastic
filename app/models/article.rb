@@ -5,10 +5,9 @@ class Article
   include Elasticsearch::Model::Callbacks
 
   #paginator configuration
-	paginates_per 6
-	max_paginates_per 10000
+  paginates_per 6
 
-	#table fields
+  #table fields
   field :title, type: String
   field :content, type: String
 
@@ -16,7 +15,6 @@ class Article
   index({ created_at: 1 }, { background: true })
 
   #reference to images, that compilance specific article
-  attr_accessor :images
   has_many :images
   accepts_nested_attributes_for :images, :allow_destroy => true
 
@@ -29,29 +27,19 @@ class Article
   end
 
 
-	#search parameters
+  #search parameters
   def self.search(query)
-	  __elasticsearch__.search(
-	    {
-	      query: {
-	        multi_match: {
-	          query: query,
-	          fields: ['title^10', 'text', 'content^10', 'text']
-	        }
-	      },
-		    size: 30
-		  }
-	  )
-	end
-
-	#delete the previous articles index in Elasticsearch
-	Article.__elasticsearch__.client.indices.delete index: Article.index_name rescue nil
-
-	#create the new index with the new mapping
-	Article.__elasticsearch__.client.indices.create \
-	  index: Article.index_name,
-	  body: { settings: Article.settings.to_hash, mappings: Article.mappings.to_hash }
-
-	#index all article records from the Mongo to Elasticsearch
-	Article.import
+    __elasticsearch__.search(
+      {
+        query: {
+          multi_match: {
+            query: query,
+            fields: ['title^10', 'text', 'content^10', 'text']
+          }
+        },
+        sort: { created_at: {order: :desc} },
+        size: 30
+      }
+    )
+  end
 end
