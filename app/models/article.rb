@@ -15,7 +15,7 @@ class Article
   index({ created_at: 1 }, { background: true })
 
   #reference to images, that compilance specific article
-  has_many :images
+  has_many :images, dependent: :destroy
   accepts_nested_attributes_for :images, :allow_destroy => true
 
   #set index name
@@ -37,7 +37,6 @@ class Article
             fields: ['title^10', 'text', 'content^10', 'text']
           }
         },
-        sort: { created_at: {order: :desc} },
         size: 30
       }
     )

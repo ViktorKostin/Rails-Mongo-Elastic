@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   private
     #check admin or ordinary user
-    def checkingRights
+    def checking_rights
       if user_signed_in? and current_user.rights != 'admin'
         redirect_to :home
       end

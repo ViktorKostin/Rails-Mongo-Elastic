@@ -21,7 +21,7 @@
             <h3>Дополнительные изображения</h3>
           </header>
           <p>
-            <% for image_item in @article.images %>
+            <% @article.images.each do |image_item| %>
               <%= image_tag image_item.image.url(:medium) %>
             <% end %>
           </p>

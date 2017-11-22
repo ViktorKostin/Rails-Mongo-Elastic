@@ -13,4 +13,5 @@ create("admin@mail.com", "admin1", "admin")
   pass = "123456"
 create(email, pass)
 end
+
 puts 'All users was successfully created'

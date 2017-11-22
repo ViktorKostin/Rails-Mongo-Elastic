@@ -36,7 +36,7 @@
 
           <% unless @article.images.nil? %>
             <div class="field">
-              <% for image_item in @article.images %>
+              <% @article.images.each do |image_item| %>
                 <div>
                   <%= link_to 'Удалить', image_destroy_path(image_id: image_item.id), method: :delete, remote: true, class: :delete_image %>
                   <%= image_tag image_item.image.url(:medium), id: image_item.id %>
