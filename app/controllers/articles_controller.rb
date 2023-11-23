@@ -1,92 +1,73 @@
 class ArticlesController < ApplicationController
+  #find specific article
   before_action :set_article, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, only: [:edit, :create, :update, :destroy, :new]
+  #validate user 'has admin rights or not'
+  before_action :checking_rights, only: [:edit, :create, :update, :destroy, :new]
 
-  # GET /articles
-  # GET /articles.json
+  #main page
   def index
-    if params[:search] == ''
-      @articles = Article.all
-    elsif params[:search]
-      @articles = Article.search(params[:search])
+    #search parameters
+    if params[:search]
+      @articles = Article.search(params[:search]).records.order_by(created_at: :desc).page params[:page]
     else
-      @articles = Article.all
+      @articles = Article.order_by(created_at: :desc).page params[:page]
     end
   end
 
-  # GET /articles/1
-  # GET /articles/1.json
-  def show
-  end
-
-  # GET /articles/new
   def new
     @article = Article.new
+    respond_to :html
   end
 
-
-  # GET /articles/1/edit
-  def edit
-  end
-
-  # POST /articles
-  # POST /articles.json
   def create
+    #getting parameters from request
     @article = Article.new(article_params)
+    
+    #adding images if they has been added in request form
+    if params[:article][:image]
+      params[:article][:image].each do |image_item| 
+        @article.images.build(image: image_item)
+      end
+    end
 
     respond_to do |format|
       if @article.save
-        format.html { redirect_to @article, notice: 'Статья успешно добавлена.' }
-        format.json { render :show, status: :created, location: @article }
+        format.html { redirect_to home_path, notice: 'Статья успешно создана.' }
       else
-        format.html { render :new }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        format.json { render json: @article.errors }
       end
     end
   end
 
-  def admin
-    if params[:search] == ''
-      @articles = Article.all
-    elsif params[:search]
-      @articles = Article.search(params[:search])
-    else
-      @articles = Article.all
-    end
-  end
-
-  # PATCH/PUT /articles/1
-  # PATCH/PUT /articles/1.json
   def update
+    #adding images to existing article if they has been added in request form
+    if params[:article][:image]
+      params[:article][:image].each do |image_item| 
+        @article.images.push(Image.new(image: image_item))
+      end
+    end
+
     respond_to do |format|
       if @article.update(article_params)
-        format.html { redirect_to @article, notice: 'Статья успешно обнавлена.' }
-        format.json { render :show, status: :ok, location: @article }
+        format.html { redirect_to @article, notice: 'Статья успешно обновлена.' }
       else
-        format.html { render :edit }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
+        format.json { render json: @article.errors }
       end
     end
   end
 
-  # DELETE /articles/1
-  # DELETE /articles/1.json
   def destroy
+    #delete specific article and her images
     @article.destroy
-    respond_to do |format|
-      format.html { redirect_to articles_url, notice: 'Статья успешно удалена.' }
-      format.json { head :no_content }
-    end
+    respond_to :js
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_article
       @article = Article.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
     def article_params
-      params.require(:article).permit(:title, :content, :img)
+      params.require(:article).permit(:title, :content)
     end
 end

@@ -1,19 +1,39 @@
-<p id="notice"><%= notice %></p>
+<!-- Main -->
+<div id="main-wrapper">
+  <div class="container">
 
-<p>
-  <strong>Заголовок:</strong>
-  <%= @article.title %>
-</p>
+    <!-- Start of article -->
+    <article class="box post">
+      <% if @article.images[0] %>
+        <a class="image featured"><%= image_tag @article.images[0].image.url(:original) %></a>
+      <% else %>
+        <a class="image featured"><%= image_tag 'default.jpg' %></a>
+      <% end %>
+      <header>
+        <h2><%= @article.title %></h2>
+      </header>
+      <p>
+        <%= @article.content %>
+      </p>
+      <% if @article.images.count > 1 %>
+        <section>
+          <header>
+            <h3>Дополнительные изображения</h3>
+          </header>
+          <p>
+            <% @article.images.each do |image_item| %>
+              <%= image_tag image_item.image.url(:medium) %>
+            <% end %>
+          </p>
+        </section>
+      <% end %>
+    </article>
+    <!-- End of article -->
 
-<p>
-  <strong>Содержание:</strong>
-  <%= @article.content %>
-</p>
+  </div>
+</div>
 
-<p>
-  <strong>Автор:</strong>
-  <%= @article.img %>
-</p>
-
-<%= link_to 'Редактировать', edit_article_path(@article) %> |
-<%= link_to 'На главную', home_path %>
+<% if user_signed_in? and current_user.rights == 'admin' %>
+  <%= link_to 'Редактировать', edit_article_path(@article), remote: true, class: 'get_form button' %>
+<% end %>
+<%= link_to 'К списку новостей', home_path, class: 'button alt' %>
