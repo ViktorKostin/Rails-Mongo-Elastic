@@ -9,6 +9,7 @@ gem 'mongoid', '~> 6.1.0'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'devise'
+gem 'jquery-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'

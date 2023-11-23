@@ -15,5 +15,7 @@
   <%= @article.img %>
 </p>
 
-<%= link_to 'Редактировать', edit_article_path(@article) %> |
-<%= link_to 'На главную', home_path %>
+<% if user_signed_in? and current_user.rights == 'admin' %>
+	<%= link_to 'Редактировать', edit_article_path(@article) %> |
+<% end %>
+<%= link_to 'К списку новостей', home_path %>

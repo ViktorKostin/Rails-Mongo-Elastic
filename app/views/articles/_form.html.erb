@@ -13,17 +13,17 @@
 
   <div class="field">
     <%= form.label :title %>
-    <%= form.text_field :title, id: :article_title %>
+    <%= form.text_field :title, id: :article_title, size: 41 %>
   </div>
 
   <div class="field">
     <%= form.label :content %>
-    <%= form.text_field :content, id: :article_content %>
+    <%= form.text_area :content, id: :article_content, cols: 40, rows: 10 %>
   </div>
 
   <div class="field">
     <%= form.label :img %>
-    <%= form.text_field :img, id: :article_img %>
+    <%= form.file_field :img, id: :article_img %>
   </div>
 
   <div class="actions">

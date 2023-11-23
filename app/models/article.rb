@@ -8,6 +8,7 @@ class Article
 
   field :title, type: String
   field :content, type: String
+  field :author, type: String
   field :img, type: String
 
   def as_indexed_json (options={})
@@ -27,7 +28,7 @@ class Article
 	      query: {
 	        multi_match: {
 	          query: query,
-	          fields: ['title^10', 'text','img^10', 'text','content^10', 'text']
+	          fields: ['title^10', 'text','author^10', 'text','content^10', 'text']
 	        }
 	      },
 	      highlight: {
@@ -41,4 +42,14 @@ class Article
 		  }
 	  )
 	end
+	# Delete the previous articles index in Elasticsearch
+	Article.__elasticsearch__.client.indices.delete index: Article.index_name rescue nil
+
+	# Create the new index with the new mapping
+	Article.__elasticsearch__.client.indices.create \
+	  index: Article.index_name,
+	  body: { settings: Article.settings.to_hash, mappings: Article.mappings.to_hash }
+
+	# Index all article records from the DB to Elasticsearch
+	Article.import
 end

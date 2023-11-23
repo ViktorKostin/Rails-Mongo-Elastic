@@ -2,13 +2,19 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, only: [:edit, :create, :update, :destroy, :new]
 
+  def checkingRights
+    if current_user.rights != 'admin'
+      redirect_to :home
+    end
+  end
+
   # GET /articles
   # GET /articles.json
   def index
     if params[:search] == ''
       @articles = Article.all
     elsif params[:search]
-      @articles = Article.search(params[:search])
+      @articles = Article.search(params[:search]).records.to_a
     else
       @articles = Article.all
     end
@@ -21,17 +27,20 @@ class ArticlesController < ApplicationController
 
   # GET /articles/new
   def new
+    checkingRights
     @article = Article.new
   end
 
 
   # GET /articles/1/edit
   def edit
+    checkingRights
   end
 
   # POST /articles
   # POST /articles.json
   def create
+    checkingRights
     @article = Article.new(article_params)
 
     respond_to do |format|
@@ -45,19 +54,10 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def admin
-    if params[:search] == ''
-      @articles = Article.all
-    elsif params[:search]
-      @articles = Article.search(params[:search])
-    else
-      @articles = Article.all
-    end
-  end
-
   # PATCH/PUT /articles/1
   # PATCH/PUT /articles/1.json
   def update
+    checkingRights
     respond_to do |format|
       if @article.update(article_params)
         format.html { redirect_to @article, notice: 'Статья успешно обнавлена.' }
@@ -72,11 +72,9 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.json
   def destroy
+    checkingRights
     @article.destroy
-    respond_to do |format|
-      format.html { redirect_to articles_url, notice: 'Статья успешно удалена.' }
-      format.json { head :no_content }
-    end
+    respond_to :js
   end
 
   private
