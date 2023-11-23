@@ -1,0 +1,60 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+ru:
+  devise:
+    confirmations:
+    failure:
+      already_authenticated: "Вы уже вошли."
+      invalid: "Неправильный %{authentication_keys} или пароль."
+      last_attempt: "Вы имеете еще одну попытку прежде чем аккаунт будет заблокирован."
+      not_found_in_database: "Неправильный %{authentication_keys} или пароль."
+      timeout: "Сессия истекла. Пожалуйста, войдите еще раз, чтобы продолжить."
+      unauthenticated: "Вы должны войти прежде, чем продолжить."
+    omniauth_callbacks:
+      failure: "Вы не можете войти %{kind} потому что \"%{reason}\"."
+      success: "Успешно вошли из %{kind} аккаунта."
+    registrations:
+      signed_up: "Добро пожаловать! Вы успешно зарегистрировались."
+    sessions:
+      signed_in: "Вход был успешно совершен."
+      signed_out: "Выход был успешно совершен."
+      already_signed_out: "Выход был успешно совершен."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "Нужно подтвердить в течение %{period}, пожалуйста сделайте еще один запрос"
+      expired: "истек, пожалуйста, сделайте еще один запрос"
+      not_found: "не найден"
+      not_locked: "не был заблокирован"
+      not_saved:
+        one: "Ошибка"
+        other: "Ошибки"
+  mongoid:
+    errors:
+      models:
+        user:
+          attributes:
+            email: 
+              blank: "Введите email"
+              taken: " уже занят, введите другой"
+            password: 
+              blank: "Введите пароль"
+              too_short: " короткий пароль"
+            password_confirmation:
+              confirmation: " требуется пароль подтверждения"
+  views:
+    pagination:
+      first: "&laquo; Первая"
+      last: "Последняя &raquo;"
+      previous: "&lsaquo; Предыдущая"
+      next: "Следующая &rsaquo;"
+      truncate: "&hellip;"
+    helpers:
+      page_entries_info:
+        one_page:
+          display_entries:
+            zero: "%{entry_name} не найдено"
+            one: "Отображение <b>1</b> %{entry_name}"
+            other: "Отображение <b>всех %{count}</b> %{entry_name}"
+        more_pages:
+          display_entries: "Отображение %{entry_name} <b>%{first}&nbsp;-&nbsp;%{last}</b> от итоговой суммы <b>%{total}</b>"

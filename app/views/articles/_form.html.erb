@@ -1,32 +1,65 @@
-<%= form_with(model: article, local: true) do |form| %>
-  <% if article.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(article.errors.count, "error") %> prohibited this article from being saved:</h2>
+<!-- Modal -->
+<div class="modal fade" id="form" role="dialog">
+  <div class="modal-dialog">
+  
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><%= header %></h4>
+      </div>
+      <div class="modal-body">
 
-      <ul>
-      <% article.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+        <!-- Начало формы запроса -->
+        <%= form_with(model: article, local: false, html: { multipart: :true }) do |form| %>
+          <% if article.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(article.errors.count, "error") %> не удалось сохранить статью:</h2>
+
+              <ul>
+              <% article.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :Заголовок %>
+            <%= form.text_field :title, id: :article_title, size: 41 %>
+          </div>
+
+          <div class="field">
+            <%= form.label :Cодержание %>
+            <%= form.text_area :content, id: :article_content, cols: 40, rows: 10 %>
+          </div>
+
+          <% unless @article.images.nil? %>
+            <div class="field">
+              <% for image_item in @article.images %>
+                <div>
+                  <%= link_to 'Удалить', image_destroy_path(image_id: image_item.id), method: :delete, remote: true, class: :delete_image %>
+                  <%= image_tag image_item.image.url(:medium), id: image_item.id %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          <div class="field">
+            <br>
+            <%= form.file_field :image, id: :article_image, multiple: true %>
+          </div>
+
+          <div class="actions">
+            <%= form.submit 'Сохранить', class: :save_article %>
+          </div>
+        <% end %>
+        <!-- Конец формы запроса -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn alt" data-dismiss="modal">Закрыть</button>
+      </div>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title, id: :article_title %>
+    
   </div>
-
-  <div class="field">
-    <%= form.label :content %>
-    <%= form.text_field :content, id: :article_content %>
-  </div>
-
-  <div class="field">
-    <%= form.label :img %>
-    <%= form.text_field :img, id: :article_img %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
